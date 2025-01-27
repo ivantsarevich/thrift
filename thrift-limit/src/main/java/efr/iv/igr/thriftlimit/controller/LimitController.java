@@ -4,7 +4,7 @@ import efr.iv.igr.thriftlimit.mapper.LimitMapper;
 import efr.iv.igr.thriftlimit.model.entity.Limit;
 import efr.iv.igr.thriftlimit.model.request.LimitRequest;
 import efr.iv.igr.thriftlimit.model.response.LimitResponse;
-import efr.iv.igr.thriftlimit.service.ILImitService;
+import efr.iv.igr.thriftlimit.service.ILimitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,12 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/limits")
 public class LimitController {
-    private final ILImitService limitService;
+    private final ILimitService limitService;
 
     private final LimitMapper limitMapper;
 
     @Autowired
-    public LimitController(ILImitService limitService, LimitMapper limitMapper) {
+    public LimitController(ILimitService limitService, LimitMapper limitMapper) {
         this.limitService = limitService;
         this.limitMapper = limitMapper;
     }

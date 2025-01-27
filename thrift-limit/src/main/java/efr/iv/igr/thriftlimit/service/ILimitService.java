@@ -4,7 +4,7 @@ import efr.iv.igr.thriftlimit.model.entity.Limit;
 
 import java.util.List;
 
-public interface ILImitService {
+public interface ILimitService {
     Limit createLimit(Limit limit);
 
     List<Limit> getLimits();
