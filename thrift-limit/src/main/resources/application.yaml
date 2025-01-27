@@ -21,3 +21,9 @@ spring:
 
 server:
   port: ${LIMIT_PORT:8080}
+
+transaction:
+  url: ${TRANSACTION_URL}
+
+currencyapi:
+  url: ${CURRENCYAPI_URL}
