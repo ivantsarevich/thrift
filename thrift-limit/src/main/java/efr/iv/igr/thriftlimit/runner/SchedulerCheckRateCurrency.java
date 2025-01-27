@@ -37,7 +37,7 @@ public class SchedulerCheckRateCurrency implements CommandLineRunner {
             Currency currency = new Currency();
             currency.setCode(currencyCode);
             currency.setLastUpdate(currencyApiResponse.getMeta().getLastUpdatedAt());
-            currency.setRate(currencyApiResponse.getData().get(currencyCode.toString()).getValue());
+            currency.setRate(currencyApiResponse.getData().get(currencyCode).getValue());
             currencyService.createCurrency(currency);
         }
     }
