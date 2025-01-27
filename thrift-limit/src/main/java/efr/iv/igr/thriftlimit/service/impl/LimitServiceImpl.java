@@ -6,6 +6,7 @@ import efr.iv.igr.thriftlimit.service.ILImitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -19,6 +20,7 @@ public class LimitServiceImpl implements ILImitService {
 
     @Override
     public Limit createLimit(Limit limit) {
+        limit.setLimitDatetime(Instant.now());
         return limitRepository.save(limit);
     }
 
