@@ -15,11 +15,11 @@ public class TransactionResponse {
 
     private Long accountTo;
 
-    private String currency;
+    private CurrencyCode currency;
 
     private BigDecimal amount;
 
-    private String category;
+    private Category category;
 
     private Instant date;
 }

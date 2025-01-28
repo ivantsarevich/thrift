@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -25,7 +26,7 @@ public class SchedulerCheckRateCurrency implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         schedule();
     }
 
@@ -33,12 +34,12 @@ public class SchedulerCheckRateCurrency implements CommandLineRunner {
     private void schedule() {
         CurrencyApiResponse currencyApiResponse = currencyFeignClient.getCurrency();
 
-        for (CurrencyCode currencyCode : CurrencyCode.values()) {
+        Arrays.stream(CurrencyCode.values()).forEach(x -> {
             Currency currency = new Currency();
-            currency.setCode(currencyCode);
+            currency.setCode(x);
             currency.setLastUpdate(currencyApiResponse.getMeta().getLastUpdatedAt());
-            currency.setRate(currencyApiResponse.getData().get(currencyCode).getValue());
+            currency.setRate(currencyApiResponse.getData().get(x).getValue());
             currencyService.createCurrency(currency);
-        }
+        });
     }
 }

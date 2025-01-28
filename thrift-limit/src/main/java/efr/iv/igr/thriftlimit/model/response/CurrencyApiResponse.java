@@ -11,7 +11,7 @@ import java.util.Map;
 public class CurrencyApiResponse {
     private Meta meta;
 
-    private Map<String, Currency> data;
+    private Map<CurrencyCode, Currency> data;
 
     @lombok.Data
     public static class Meta {
@@ -22,7 +22,7 @@ public class CurrencyApiResponse {
     @lombok.Data
     public static class Currency {
         @JsonProperty("code")
-        private String code;
+        private CurrencyCode code;
 
         @JsonProperty("value")
         private BigDecimal value;
