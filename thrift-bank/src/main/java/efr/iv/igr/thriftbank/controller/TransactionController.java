@@ -1,5 +1,6 @@
 package efr.iv.igr.thriftbank.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import efr.iv.igr.thriftbank.model.request.TransactionRequest;
 import efr.iv.igr.thriftbank.model.response.TransactionResponse;
 import efr.iv.igr.thriftbank.service.ITransactionService;
@@ -19,22 +20,8 @@ public class TransactionController {
     }
 
     @GetMapping
-    public List<TransactionResponse> getTransactions() {
+    public List<TransactionResponse> getTransactions() throws JsonProcessingException {
         return transactionService.getAllTransactions();
-
-//        if (cacheDataService.getCacheData() == null) {
-//            List<Transaction> transactions = transactionService.getAllTransactions();
-//            String transactionsAsString = objectMapper.writeValueAsString(transactions);
-//            cacheDataService.createCacheData(transactionsAsString);
-//
-//            return transactionMapper.toResponses(transactions);
-//        }
-//
-//        String transactionsAsString = cacheDataService.getCacheData().getValue();
-//        TypeReference<List<Transaction>> typeReference = new TypeReference<>() {};
-//        List<Transaction> transactions = objectMapper.readValue(transactionsAsString, typeReference);
-//
-//        return transactionMapper.toResponses(transactions);
     }
 
     @PostMapping

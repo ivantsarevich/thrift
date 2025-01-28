@@ -1,11 +1,14 @@
 package efr.iv.igr.thriftbank.service;
 
-import efr.iv.igr.thriftbank.model.entity.CacheTransaction;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import efr.iv.igr.thriftbank.model.response.TransactionResponse;
+
+import java.util.List;
 
 public interface ICacheTransactionService {
-    void createCacheData(String data);
+    void createCacheData(List<TransactionResponse> transactionResponse) throws JsonProcessingException;
 
-    CacheTransaction getCacheData();
+    List<TransactionResponse> getCacheData() throws JsonProcessingException;
 
     void deleteCacheData();
 }
