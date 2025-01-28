@@ -4,6 +4,7 @@ import efr.iv.igr.thriftlimit.mapper.LimitMapper;
 import efr.iv.igr.thriftlimit.model.entity.Limit;
 import efr.iv.igr.thriftlimit.model.request.LimitRequest;
 import efr.iv.igr.thriftlimit.model.response.LimitResponse;
+import efr.iv.igr.thriftlimit.model.response.TransactionExceededResponse;
 import efr.iv.igr.thriftlimit.service.ILimitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +33,10 @@ public class LimitController {
     public LimitResponse createLimit(@RequestBody LimitRequest limitRequest) {
         Limit limit = limitMapper.toEntity(limitRequest);
         return limitMapper.toResponse(limitService.createLimit(limit));
+    }
+
+    @GetMapping("/transactions/exceeded")
+    public List<TransactionExceededResponse> getAllTransactionsExceeded() {
+        return limitService.getAllTransactionsExceeded();
     }
 }

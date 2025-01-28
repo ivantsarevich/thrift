@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class TransactionExceededResponse {
-    private LimitResponse limitResponse;
-
     private TransactionResponse transactionResponse;
+
+    private LimitResponse limitResponse;
 
     private boolean exceeded;
 }
