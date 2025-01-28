@@ -1,7 +1,5 @@
 package efr.iv.igr.thriftlimit.controller;
 
-import efr.iv.igr.thriftlimit.mapper.LimitMapper;
-import efr.iv.igr.thriftlimit.model.entity.Limit;
 import efr.iv.igr.thriftlimit.model.request.LimitRequest;
 import efr.iv.igr.thriftlimit.model.response.LimitResponse;
 import efr.iv.igr.thriftlimit.model.response.TransactionExceededResponse;
@@ -16,23 +14,19 @@ import java.util.List;
 public class LimitController {
     private final ILimitService limitService;
 
-    private final LimitMapper limitMapper;
-
     @Autowired
-    public LimitController(ILimitService limitService, LimitMapper limitMapper) {
+    public LimitController(ILimitService limitService) {
         this.limitService = limitService;
-        this.limitMapper = limitMapper;
     }
 
     @GetMapping
     public List<LimitResponse> getLimits() {
-        return limitMapper.toResponses(limitService.getLimits());
+        return limitService.getLimits();
     }
 
     @PostMapping
     public LimitResponse createLimit(@RequestBody LimitRequest limitRequest) {
-        Limit limit = limitMapper.toEntity(limitRequest);
-        return limitMapper.toResponse(limitService.createLimit(limit));
+        return limitService.createLimit(limitRequest);
     }
 
     @GetMapping("/transactions/exceeded")

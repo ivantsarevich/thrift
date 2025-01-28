@@ -3,6 +3,7 @@ package efr.iv.igr.thriftlimit.service.impl;
 import efr.iv.igr.thriftlimit.feign.TransactionFeignClient;
 import efr.iv.igr.thriftlimit.mapper.LimitMapper;
 import efr.iv.igr.thriftlimit.model.entity.Limit;
+import efr.iv.igr.thriftlimit.model.request.LimitRequest;
 import efr.iv.igr.thriftlimit.model.response.LimitResponse;
 import efr.iv.igr.thriftlimit.model.response.TransactionExceededResponse;
 import efr.iv.igr.thriftlimit.model.response.TransactionResponse;
@@ -20,6 +21,8 @@ import java.util.List;
 public class LimitServiceImpl implements ILimitService {
     private final LimitRepository limitRepository;
 
+    private final LimitMapper limitMapper;
+
     private final TransactionFeignClient transactionFeignClient;
 
     private final ICurrencyService currencyService;
@@ -30,17 +33,19 @@ public class LimitServiceImpl implements ILimitService {
         this.limitRepository = limitRepository;
         this.transactionFeignClient = transactionFeignClient;
         this.currencyService = currencyService;
+        this.limitMapper = limitMapper;
     }
 
     @Override
-    public Limit createLimit(Limit limit) {
+    public LimitResponse createLimit(LimitRequest limitRequest) {
+        Limit limit = limitMapper.toEntity(limitRequest);
         limit.setLimitDatetime(Instant.now());
-        return limitRepository.save(limit);
+        return limitMapper.toResponse(limitRepository.save(limit));
     }
 
     @Override
-    public List<Limit> getLimits() {
-        return limitRepository.findAll();
+    public List<LimitResponse> getLimits() {
+        return limitMapper.toResponses(limitRepository.findAll());
     }
 
     @Override
