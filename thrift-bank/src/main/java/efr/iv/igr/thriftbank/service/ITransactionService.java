@@ -1,11 +1,12 @@
 package efr.iv.igr.thriftbank.service;
 
-import efr.iv.igr.thriftbank.model.entity.Transaction;
+import efr.iv.igr.thriftbank.model.request.TransactionRequest;
+import efr.iv.igr.thriftbank.model.response.TransactionResponse;
 
 import java.util.List;
 
 public interface ITransactionService {
-    Transaction createTransaction(Transaction transaction);
+    TransactionResponse createTransaction(TransactionRequest transactionRequest);
 
-    List<Transaction> getAllTransactions();
+    List<TransactionResponse> getAllTransactions();
 }
