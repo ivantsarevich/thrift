@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: "thrift-limit"
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+
+  jpa:
+    show-sql: ${SHOW_SQL:false}
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+
+    properties:
+      hibernate:
+        format_sql: ${FORMAT_SQL:false}
+
+server:
+  port: ${LIMIT_PORT:8080}
+
+transaction:
+  url: ${TRANSACTION_URL}
+
+currencyapi:
+  url: ${CURRENCYAPI_URL}
