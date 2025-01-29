@@ -7,8 +7,12 @@ tasks:
 
   build-limit:
     cmds:
-      - cd ..; cd thrift-limit/; gradlew build; docker build . -t thrift-bank
+      - cd ..; cd thrift-limit/; gradlew build; docker build . -t thrift-limit
 
   run:
     cmds:
       - docker compose up -d
+
+  stop:
+    cmds:
+      - docker compose down -v

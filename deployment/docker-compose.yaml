@@ -41,12 +41,12 @@ services:
       DB_USER: ${DB_BANK_USER}
       DB_PASSWORD: ${DB_BANK_PASSWORD}
       DB_HOST: db-bank
-      DB_PORT: ${DB_BANK_PORT}
+      DB_PORT: 5432
       DB_NAME: ${DB_BANK_NAME}
       REDIS_HOST: redis
-      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PORT: 6379
     ports:
-      - ${BANK_PORT}:8080
+      - ${BANK_PORT}:8081
     depends_on:
       - db-bank
       - redis
@@ -57,10 +57,10 @@ services:
     image: thrift-limit
     build: ../thrift-limit
     environment:
-      DB_USER: ${DB_BANK_USER}
+      DB_USER: ${DB_LIMIT_USER}
       DB_PASSWORD: ${DB_LIMIT_PASSWORD}
       DB_HOST: db-limit
-      DB_PORT: ${DB_LIMIT_PORT}
+      DB_PORT: 5432
       DB_NAME: ${DB_LIMIT_NAME}
       TRANSACTION_URL: ${TRANSACTION_URL}
       CURRENCYAPI_URL: ${CURRENCYAPI_URL}
