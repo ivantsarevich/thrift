@@ -26,6 +26,6 @@ public class TransactionController {
 
     @PostMapping
     public TransactionResponse createTransaction(@RequestBody TransactionRequest transactionRequest) {
-        return createTransaction(transactionRequest);
+        return transactionService.createTransaction(transactionRequest);
     }
 }
