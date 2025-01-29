@@ -1,0 +1,14 @@
+version: '3'
+
+tasks:
+  build-bank:
+    cmds:
+      - cd ..; cd thrift-bank/; gradlew build; docker build . -t thrift-bank
+
+  build-limit:
+    cmds:
+      - cd ..; cd thrift-limit/; gradlew build; docker build . -t thrift-bank
+
+  run:
+    cmds:
+      - docker compose up -d
