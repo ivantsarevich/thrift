@@ -7,6 +7,9 @@ import efr.iv.igr.thriftbank.model.entity.CacheTransaction;
 import efr.iv.igr.thriftbank.model.response.TransactionResponse;
 import efr.iv.igr.thriftbank.repository.CacheTransactionRepository;
 import efr.iv.igr.thriftbank.service.ICacheTransactionService;
+
+import java.util.Collections;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +36,14 @@ public class CacheTransactionServiceImpl implements ICacheTransactionService {
     @Override
     public List<TransactionResponse> getCacheData() throws JsonProcessingException {
         CacheTransaction allTransactions = cacheTransactionRepository.findById("allTransactions").orElse(null);
-        String transactionsAsString = objectMapper.writeValueAsString(allTransactions);
-        TypeReference<List<TransactionResponse>> typeReference = new TypeReference<>() {};
-        return objectMapper.readValue(transactionsAsString, typeReference);
+
+        if (allTransactions == null) {
+            return Collections.emptyList();
+        }
+
+        String transactionsAsString = allTransactions.getValue();
+        TypeReference<List<TransactionResponse>> mapType = new TypeReference<>() {};
+        return objectMapper.readValue(transactionsAsString, mapType);
     }
 
     @Override

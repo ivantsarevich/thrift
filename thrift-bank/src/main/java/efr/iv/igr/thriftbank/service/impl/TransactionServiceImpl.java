@@ -42,7 +42,7 @@ public class TransactionServiceImpl implements ITransactionService {
     public List<TransactionResponse> getAllTransactions() throws JsonProcessingException {
         List<TransactionResponse> cacheData = cacheTransactionService.getCacheData();
 
-        if (cacheData == null) {
+        if (cacheData.isEmpty()) {
             cacheTransactionService.createCacheData(transactionMapper.toResponses(transactionRepository.findAll()));
             return transactionMapper.toResponses(transactionRepository.findAll());
         }
