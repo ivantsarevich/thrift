@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@FeignClient(name = "transaction", url="${transaction.url}")
+@FeignClient(name = "transaction", url = "${transaction.url}")
 public interface TransactionFeignClient {
     @GetMapping
     List<TransactionResponse> getTransaction();
