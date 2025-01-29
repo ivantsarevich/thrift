@@ -58,7 +58,8 @@ public class LimitServiceImpl implements ILimitService {
                     TransactionExceededResponse transactionExceededResponse = new TransactionExceededResponse();
                     transactionExceededResponse.setTransactionResponse(x);
                     transactionExceededResponse.setLimitResponse(
-                            new LimitResponse(limitRepository.findFirstByAccountIdAndCategoryOrderByIdDesc(x.getAccountFrom(),
+                            limitMapper.toResponse(limitRepository.findFirstByAccountIdAndCategoryOrderByIdDesc(
+                                    x.getAccountFrom(),
                                     x.getCategory())));
                     transactionExceededResponse.setExceeded(true);
                     return transactionExceededResponse;
