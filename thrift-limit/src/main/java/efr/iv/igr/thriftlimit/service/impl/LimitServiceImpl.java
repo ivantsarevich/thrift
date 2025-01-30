@@ -1,5 +1,6 @@
 package efr.iv.igr.thriftlimit.service.impl;
 
+import efr.iv.igr.thriftlimit.exception.InvalidLimitAmountException;
 import efr.iv.igr.thriftlimit.feign.TransactionFeignClient;
 import efr.iv.igr.thriftlimit.mapper.LimitMapper;
 import efr.iv.igr.thriftlimit.model.entity.Limit;
@@ -37,7 +38,11 @@ public class LimitServiceImpl implements ILimitService {
     }
 
     @Override
-    public LimitResponse createLimit(LimitRequest limitRequest) {
+    public LimitResponse createLimit(LimitRequest limitRequest) throws InvalidLimitAmountException {
+        if (limitRequest.getSumLimit().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new InvalidLimitAmountException("Sum limit must be greater than zero");
+        }
+
         Limit limit = limitMapper.toEntity(limitRequest);
         limit.setLimitDatetime(Instant.now());
         return limitMapper.toResponse(limitRepository.save(limit));

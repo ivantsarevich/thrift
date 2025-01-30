@@ -1,5 +1,6 @@
 package efr.iv.igr.thriftlimit.controller;
 
+import efr.iv.igr.thriftlimit.exception.InvalidLimitAmountException;
 import efr.iv.igr.thriftlimit.model.request.LimitRequest;
 import efr.iv.igr.thriftlimit.model.response.LimitResponse;
 import efr.iv.igr.thriftlimit.model.response.TransactionExceededResponse;
@@ -25,7 +26,7 @@ public class LimitController {
     }
 
     @PostMapping
-    public LimitResponse createLimit(@RequestBody LimitRequest limitRequest) {
+    public LimitResponse createLimit(@RequestBody LimitRequest limitRequest) throws InvalidLimitAmountException {
         return limitService.createLimit(limitRequest);
     }
 
