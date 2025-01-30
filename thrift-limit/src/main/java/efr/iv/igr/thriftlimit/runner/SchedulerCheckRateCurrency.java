@@ -5,11 +5,13 @@ import efr.iv.igr.thriftlimit.model.entity.Currency;
 import efr.iv.igr.thriftlimit.model.entity.CurrencyCode;
 import efr.iv.igr.thriftlimit.model.response.CurrencyApiResponse;
 import efr.iv.igr.thriftlimit.service.ICurrencyService;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
@@ -32,14 +34,22 @@ public class SchedulerCheckRateCurrency implements CommandLineRunner {
 
     @Scheduled(initialDelay = 1, fixedDelay = 60 * 12, timeUnit = TimeUnit.MINUTES)
     private void schedule() {
-        CurrencyApiResponse currencyApiResponse = currencyFeignClient.getCurrency();
+        try {
+            CurrencyApiResponse currencyApiResponse = currencyFeignClient.getCurrency();
 
-        Arrays.stream(CurrencyCode.values()).forEach(x -> {
-            Currency currency = new Currency();
-            currency.setCode(x);
-            currency.setLastUpdate(currencyApiResponse.getMeta().getLastUpdatedAt());
-            currency.setRate(currencyApiResponse.getData().get(x).getValue());
-            currencyService.createCurrency(currency);
-        });
+            Arrays.stream(CurrencyCode.values()).forEach(x -> {
+                Currency currency = new Currency();
+                currency.setCode(x);
+                currency.setLastUpdate(currencyApiResponse.getMeta().getLastUpdatedAt());
+                currency.setRate(currencyApiResponse.getData().get(x).getValue());
+                currencyService.createCurrency(currency);
+            });
+        } catch (FeignException feignException) {
+            Arrays.stream(CurrencyCode.values()).forEach(x -> {
+               Currency currency = currencyService.getCurrency(x);
+               currency.setId(0L);
+               currency.setLastUpdate(Instant.now());
+            });
+        }
     }
 }
