@@ -4,9 +4,9 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:postgres}
 
   jpa:
     show-sql: ${SHOW_SQL:false}
@@ -21,8 +21,8 @@ spring:
 
   data:
     redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
 
 server:
-  port: ${BANK_PORT:8080}
+  port: ${BANK_PORT:8081}

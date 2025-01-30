@@ -7,12 +7,10 @@ import efr.iv.igr.thriftbank.model.entity.CacheTransaction;
 import efr.iv.igr.thriftbank.model.response.TransactionResponse;
 import efr.iv.igr.thriftbank.repository.CacheTransactionRepository;
 import efr.iv.igr.thriftbank.service.ICacheTransactionService;
-
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
