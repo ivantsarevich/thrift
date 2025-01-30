@@ -1,6 +1,8 @@
 package efr.iv.igr.thriftbank.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import efr.iv.igr.thriftbank.exception.InvalidAmountException;
+import efr.iv.igr.thriftbank.exception.SimilarIndetifierException;
 import efr.iv.igr.thriftbank.model.request.TransactionRequest;
 import efr.iv.igr.thriftbank.model.response.TransactionResponse;
 import efr.iv.igr.thriftbank.service.ITransactionService;
@@ -25,7 +27,7 @@ public class TransactionController {
     }
 
     @PostMapping
-    public TransactionResponse createTransaction(@RequestBody TransactionRequest transactionRequest) {
+    public TransactionResponse createTransaction(@RequestBody TransactionRequest transactionRequest) throws SimilarIndetifierException, InvalidAmountException {
         return transactionService.createTransaction(transactionRequest);
     }
 }
