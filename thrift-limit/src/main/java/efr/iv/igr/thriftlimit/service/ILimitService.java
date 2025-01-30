@@ -1,5 +1,6 @@
 package efr.iv.igr.thriftlimit.service;
 
+import efr.iv.igr.thriftlimit.exception.ConnectTransactionServiceException;
 import efr.iv.igr.thriftlimit.exception.InvalidLimitAmountException;
 import efr.iv.igr.thriftlimit.model.request.LimitRequest;
 import efr.iv.igr.thriftlimit.model.response.LimitResponse;
@@ -12,5 +13,5 @@ public interface ILimitService {
 
     List<LimitResponse> getLimits();
 
-    List<TransactionExceededResponse> getAllTransactionsExceeded();
+    List<TransactionExceededResponse> getAllTransactionsExceeded() throws ConnectTransactionServiceException;
 }

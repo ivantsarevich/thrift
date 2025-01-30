@@ -1,5 +1,6 @@
 package efr.iv.igr.thriftlimit.controller;
 
+import efr.iv.igr.thriftlimit.exception.ConnectTransactionServiceException;
 import efr.iv.igr.thriftlimit.exception.InvalidLimitAmountException;
 import efr.iv.igr.thriftlimit.model.request.LimitRequest;
 import efr.iv.igr.thriftlimit.model.response.LimitResponse;
@@ -31,7 +32,7 @@ public class LimitController {
     }
 
     @GetMapping("/transactions/exceeded")
-    public List<TransactionExceededResponse> getAllTransactionsExceeded() {
+    public List<TransactionExceededResponse> getAllTransactionsExceeded() throws ConnectTransactionServiceException {
         return limitService.getAllTransactionsExceeded();
     }
 }

@@ -47,7 +47,7 @@ public class SchedulerCheckRateCurrency implements CommandLineRunner {
         } catch (FeignException feignException) {
             Arrays.stream(CurrencyCode.values()).forEach(x -> {
                Currency currency = currencyService.getCurrency(x);
-               currency.setId(null);
+               currency.setId(0L);
                currency.setLastUpdate(Instant.now());
             });
         }

@@ -1,5 +1,6 @@
 package efr.iv.igr.thriftlimit.service.impl;
 
+import efr.iv.igr.thriftlimit.exception.ConnectTransactionServiceException;
 import efr.iv.igr.thriftlimit.exception.InvalidLimitAmountException;
 import efr.iv.igr.thriftlimit.feign.TransactionFeignClient;
 import efr.iv.igr.thriftlimit.mapper.LimitMapper;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.net.ConnectException;
 import java.time.Instant;
 import java.util.List;
 
@@ -55,22 +55,25 @@ public class LimitServiceImpl implements ILimitService {
     }
 
     @Override
-    public List<TransactionExceededResponse> getAllTransactionsExceeded() {
-        return transactionFeignClient
-                .getTransaction()
-                .stream()
-                .filter(this::checkLimit)
-                .map(x -> {
-                    TransactionExceededResponse transactionExceededResponse = new TransactionExceededResponse();
-                    transactionExceededResponse.setTransactionResponse(x);
-                    transactionExceededResponse.setLimitResponse(
-                            limitMapper.toResponse(limitRepository.findFirstByAccountIdAndCategoryOrderByIdDesc(
-                                    x.getAccountFrom(),
-                                    x.getCategory())));
-                    transactionExceededResponse.setExceeded(true);
-                    return transactionExceededResponse;
-                })
-                .toList();
+    public List<TransactionExceededResponse> getAllTransactionsExceeded() throws ConnectTransactionServiceException {
+        try {
+            List<TransactionResponse> transaction = transactionFeignClient.getTransaction();
+            return transaction.stream()
+                    .filter(this::checkLimit)
+                    .map(x -> {
+                        TransactionExceededResponse transactionExceededResponse = new TransactionExceededResponse();
+                        transactionExceededResponse.setTransactionResponse(x);
+                        transactionExceededResponse.setLimitResponse(
+                                limitMapper.toResponse(limitRepository.findFirstByAccountIdAndCategoryOrderByIdDesc(
+                                        x.getAccountFrom(),
+                                        x.getCategory())));
+                        transactionExceededResponse.setExceeded(true);
+                        return transactionExceededResponse;
+                    })
+                    .toList();
+        } catch (Exception e) {
+            throw new ConnectTransactionServiceException("Sorry, service unavailable ;C");
+        }
     }
 
     private boolean checkLimit(TransactionResponse transactionResponse) {
