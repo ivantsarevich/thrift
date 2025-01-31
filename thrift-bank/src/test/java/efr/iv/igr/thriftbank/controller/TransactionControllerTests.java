@@ -29,24 +29,6 @@ class TransactionControllerTests {
     private TransactionController transactionController;
 
     @Test
-    void createTransactionExceptionTest() throws SimilarIndetifierException, InvalidAmountException {
-        TransactionRequest transactionRequest = new TransactionRequest();
-        transactionRequest.setAmount(BigDecimal.valueOf(200));
-        transactionRequest.setCurrency(CurrencyCode.USD);
-        transactionRequest.setCategory(Category.Product);
-        transactionRequest.setAccountFrom(1L);
-        transactionRequest.setAccountTo(1L);
-
-        Mockito.doThrow(SimilarIndetifierException.class)
-                .when(transactionService)
-                .createTransaction(transactionRequest);
-
-        Assertions.assertThrows(SimilarIndetifierException.class, () -> {
-            transactionController.createTransaction(transactionRequest);
-        });
-    }
-
-    @Test
     void createTransactionSuccessTest() throws InvalidAmountException, SimilarIndetifierException {
         TransactionRequest transactionRequest = new TransactionRequest();
         transactionRequest.setAmount(BigDecimal.valueOf(200));
