@@ -1,5 +1,6 @@
 package efr.iv.igr.thriftbank.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import efr.iv.igr.thriftbank.exception.InvalidAmountException;
 import efr.iv.igr.thriftbank.exception.SimilarIndetifierException;
 import efr.iv.igr.thriftbank.mapper.TransactionMapper;
@@ -20,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class TransactionServiceImplTests {
@@ -94,5 +96,15 @@ class TransactionServiceImplTests {
         Assertions.assertEquals(transactionRequest.getAmount(), response.getAmount());
         Mockito.verify(cacheTransactionService).deleteCacheData();
         Mockito.verify(transactionRepository).save(transaction);
+    }
+
+    @Test
+    @DisplayName("Call getAllTransactions method that return List<TransactionResponse>")
+    void getAllTransactions_ReturnListOfTransactionResponse() throws JsonProcessingException {
+        Mockito.when(transactionRepository.findAll()).thenReturn(List.of(transaction));
+
+        List<TransactionResponse> transactionResponses = transactionService.getAllTransactions();
+
+        Assertions.assertNotNull(transactionResponses);
     }
 }
