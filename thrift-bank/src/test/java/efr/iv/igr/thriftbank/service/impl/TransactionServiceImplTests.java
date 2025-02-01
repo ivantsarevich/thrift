@@ -68,6 +68,7 @@ class TransactionServiceImplTests {
 
         Assertions.assertThrows(SimilarIndetifierException.class,
                 () -> transactionService.createTransaction(transactionRequest));
+        Mockito.verifyNoMoreInteractions(transactionRepository, transactionMapper, cacheTransactionService);
     }
 
     @Test
@@ -77,6 +78,7 @@ class TransactionServiceImplTests {
 
         Assertions.assertThrows(InvalidAmountException.class,
                 () -> transactionService.createTransaction(transactionRequest));
+        Mockito.verifyNoMoreInteractions(transactionRepository, transactionMapper, cacheTransactionService);
     }
 
     @Test
