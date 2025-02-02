@@ -1,0 +1,73 @@
+services:
+  db-bank:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_BANK_PASSWORD}
+      POSTGRES_USER: ${DB_BANK_USER}
+      POSTGRES_DB: ${DB_BANK_NAME}
+    ports:
+      - ${DB_BANK_PORT}:5432
+    env_file:
+      - .env
+
+  db-limit:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_LIMIT_PASSWORD}
+      POSTGRES_USER: ${DB_LIMIT_USER}
+      POSTGRES_DB: ${DB_LIMIT_NAME}
+    ports:
+      - ${DB_LIMIT_PORT}:5432
+    env_file:
+      - .env
+
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - redis:/data
+    entrypoint: redis-server --appendonly yes
+    env_file:
+      - .env
+
+  bank:
+    image: thrift-bank
+    build: ../thrift-bank
+    environment:
+      DB_USER: ${DB_BANK_USER}
+      DB_PASSWORD: ${DB_BANK_PASSWORD}
+      DB_HOST: db-bank
+      DB_NAME: ${DB_BANK_NAME}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - ${BANK_PORT}:8081
+    depends_on:
+      - db-bank
+      - redis
+    env_file:
+      - .env
+
+  limit:
+    image: thrift-limit
+    build: ../thrift-limit
+    environment:
+      DB_USER: ${DB_LIMIT_USER}
+      DB_PASSWORD: ${DB_LIMIT_PASSWORD}
+      DB_HOST: db-limit
+      DB_NAME: ${DB_LIMIT_NAME}
+      TRANSACTION_URL: ${TRANSACTION_URL}
+      CURRENCYAPI_URL: ${CURRENCYAPI_URL}
+    ports:
+      - ${LIMIT_PORT}:8080
+    depends_on:
+      - db-limit
+    env_file:
+      - .env
+
+volumes:
+  redis:

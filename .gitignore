@@ -1,3 +1,5 @@
 ### Thrift ###
 .idea
 *.iml
+
+deployment/.env
