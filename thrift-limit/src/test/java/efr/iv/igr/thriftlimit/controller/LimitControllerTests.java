@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class LimitControllerTests {
+class LimitControllerTests {
     @Mock
     private LimitServiceImpl limitService;
 
